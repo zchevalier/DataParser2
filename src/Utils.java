@@ -28,10 +28,14 @@ public class Utils {
         for(int i = 1; i < rows.length; i ++){
             checkForExceptions(rows[i]);
             String [] a = rows[i].split(",");
-            ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]),
-                    Double.parseDouble(a[3]), Double.parseDouble(a[4]), Double.parseDouble(a[5]), Integer.parseInt(a[6]),
-                    Double.parseDouble(a[7]), a[8], Integer.parseInt(a[9]));
-            output.add(result);
+            if(a.length == 11) {
+                ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]),
+                        Double.parseDouble(a[3]), Double.parseDouble(a[4]), Integer.parseInt(a[5]), Double.parseDouble(a[6]),
+                        a[7], a[8], Integer.parseInt(a[9]));
+                output.add(result);
+            } else {
+                System.out.println("Error at row " + i);
+            }
         } return output;
     }
 
