@@ -26,11 +26,28 @@ public class Utils {
         String [] rows = data.split("\n");
 
         for(int i = 1; i < rows.length; i ++){
+            checkForExceptions(rows[i]);
             String [] a = rows[i].split(",");
-            ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), (double)Integer.parseInt(a[1]), (double)Integer.parseInt(a[2]),
-                    Integer.parseInt(a[3]), (double)Integer.parseInt(a[4]), (double)Integer.parseInt(a[5]), a[6],
-                    (double)Integer.parseInt(a[7]), a[8], Integer.parseInt(a[9]));
+            ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]),
+                    Double.parseDouble(a[3]), Double.parseDouble(a[4]), Double.parseDouble(a[5]), Integer.parseInt(a[6]),
+                    Double.parseDouble(a[7]), a[8], Integer.parseInt(a[9]));
             output.add(result);
         } return output;
+    }
+
+    private static void checkForExceptions(String str) {
+        ArrayList<Integer> exceptions = new ArrayList<>();
+
+        boolean checkForSecondException = false;
+        for (int i = str.length() - 1; i >= 0; i--) {
+            if (str.substring(i, i + 1).equals("\'") && checkForSecondException == false) {
+                str = str.replace(str.substring(i, i + 1), "");
+                str.replace(str.substring(i - 4, i - 3), "");
+            } else if (str.substring(i, i + 1).equals("\'")) {
+                str = str.replace(str.substring(i, i + 1), "");
+            } else if (str.substring(i, i + 1).equals("%")) {
+                str.replace(str.substring(i, i + 1), "");
+            }
+        }
     }
 }
