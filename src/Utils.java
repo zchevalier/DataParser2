@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,6 +40,34 @@ public class Utils {
                 }
             }
         return output;
+    }
+
+    public static ArrayList<EducationResult> parse2016EducationResults(String data){
+        ArrayList<EducationResult> output = new ArrayList<>();
+        String[] rows = data.split("\n");
+
+        for(int i = 1; i < rows.length; i ++){
+            String cleanedRow = clean(rows[i]);
+
+            String[] a = rows[i].split(",");
+            if(a.length == 48){
+                // create educationResult object, store information, and add to output
+            }
+        } return output;
+    }
+
+    public static ArrayList<EmploymentResult> parse2016EmploymentResults(String data){
+        ArrayList<EmploymentResult> output = new ArrayList<>();
+        String[] rows = data.split("\n");
+
+        for(int i = 1; i < rows.length; i ++){
+            String cleanedRow = clean(rows[i]);
+
+            String[] a = rows[i].split(",");
+            if(a.length == 53){
+                // create employmentResult object, store information, and add to output
+            }
+        } return output;
     }
 
    private static String cleanLine(String row){

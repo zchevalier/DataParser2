@@ -2,16 +2,16 @@ public class County {
 
     private String name;
     private int fips;
-    private Election2016 vote2016;
-    private Education2016 educ2016;
-    private Employment2016 employ2016;
+    private ElectionResult electionResult;
+    private EducationResult educationResult;
+    private EmploymentResult employmentResult;
 
-    public County(String name, int fips, Election2016 vote2016, Education2016 educ2016, Employment2016 employ2016) {
+    public County(String name, int fips, ElectionResult vote2016, EducationResult educ2016, EmploymentResult employ2016) {
         this.name = name;
         this.fips = fips;
-        this.vote2016 = vote2016;
-        this.educ2016 = educ2016;
-        this.employ2016 = employ2016;
+        this.electionResult = vote2016;
+        this.educationResult = educ2016;
+        this.employmentResult = employ2016;
     }
 
     public String getName() {
@@ -30,28 +30,28 @@ public class County {
         this.fips = fips;
     }
 
-    public Election2016 getVote2016() {
-        return vote2016;
+    public ElectionResult getElectionResult() {
+        return electionResult;
     }
 
-    public void setVote2016(Election2016 vote2016) {
-        this.vote2016 = vote2016;
+    public void setElectionResult(ElectionResult electionResult) {
+        this.electionResult = electionResult;
     }
 
-    public Education2016 getEduc2016() {
-        return educ2016;
+    public EducationResult getEduc2016() {
+        return educationResult;
     }
 
-    public void setEduc2016(Education2016 educ2016) {
-        this.educ2016 = educ2016;
+    public void setEduc2016(EducationResult educ2016) {
+        this.educationResult = educ2016;
     }
 
-    public Employment2016 getEmploy2016() {
-        return employ2016;
+    public EmploymentResult getEmploymentResult() {
+        return employmentResult;
     }
 
-    public void setEmploy2016(Employment2016 employ2016) {
-        this.employ2016 = employ2016;
+    public void setEmploymentResult(EmploymentResult employmentResult) {
+        this.employmentResult = employmentResult;
     }
 
 
