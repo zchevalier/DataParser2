@@ -26,32 +26,45 @@ public class Utils {
         String [] rows = data.split("\n");
 
         for(int i = 1; i < rows.length; i ++){
-            checkForExceptions(rows[i]);
-            String [] a = rows[i].split(",");
-            if(a.length == 11) {
-                ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]),
-                        Double.parseDouble(a[3]), Double.parseDouble(a[4]), Integer.parseInt(a[5]), Double.parseDouble(a[6]),
-                        a[7], a[8], Integer.parseInt(a[9]));
-                output.add(result);
-            } else {
-                System.out.println("Error at row " + i);
+                String cleanedRow = clean(rows[i]);
+
+                String[] a = rows[i].split(",");
+                if (a.length == 11) {
+                    ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]),
+                            Double.parseDouble(a[3]), Double.parseDouble(a[4]), Integer.parseInt(a[5]), Double.parseDouble(a[6]),
+                            a[7], a[8], Integer.parseInt(a[9]));
+                    output.add(result);
+                } else {
+                    System.out.println("Error at row " + i);
+                }
             }
-        } return output;
+        return output;
     }
 
-    private static void checkForExceptions(String str) {
-        ArrayList<Integer> exceptions = new ArrayList<>();
+   private static String cleanLine(String row){
+        int firstQuote = row.indexOf("\"");
+        int secondQuote = row.indexOf("\"", firstQuote + 1);
 
-        boolean checkForSecondException = false;
-        for (int i = str.length() - 1; i >= 0; i--) {
-            if (str.substring(i, i + 1).equals("\'") && checkForSecondException == false) {
-                str = str.replace(str.substring(i, i + 1), "");
-                str.replace(str.substring(i - 4, i - 3), "");
-            } else if (str.substring(i, i + 1).equals("\'")) {
-                str = str.replace(str.substring(i, i + 1), "");
-            } else if (str.substring(i, i + 1).equals("%")) {
-                str.replace(str.substring(i, i + 1), "");
-            }
+        while(firstQuote != -1 && secondQuote != -1){
+            row = cleanSection(row, firstQuote, secondQuote);
+            firstQuote = row.indexOf("\"");
+            secondQuote = row.indexOf("\"", firstQuote + 1);
         }
+        return row;
+   }
+
+    private static String cleanSection(String row, int firstQuote, int secondQuote) {
+        String previous = row.substring(0, firstQuote);
+        String next = row.substring(secondQuote + 1);
+        String uncleaned = row.substring(firstQuote + 1, secondQuote);
+
+        return previous + clean(uncleaned) + next;
     }
+
+    private static String clean(String uncleaned) {
+        uncleaned = uncleaned.replaceAll(",", "").trim();
+        uncleaned = uncleaned.replaceAll("%", "").trim();
+        return uncleaned;
+    }
+
 }
