@@ -10,10 +10,19 @@ public class Main {
     public static void main(String[] args) {
         //test of utils
 
-        String data = Utils.readFileAsString("data/2016_Presidential_Results.csv");
-        ArrayList<ElectionResults> test = Utils.parse2016PresidentialResults(data);
-        for(ElectionResults results : test){
-            results.toString();
+        String data = Utils.readFileAsString("data/Unemployment.csv");
+        ArrayList<DataManager> results = Utils.parseUnemploymentData(data);
+        for(int i = 0; i < results.size(); i ++){
+            int sum = 0;
+            int countyCount = 0;
+            String currentState = results.get(i).getStateName();
+            while(results.get(i).getStateName() == results.get(i + 1).getStateName()){
+                sum += results.get(i).getUnemploymentRate();
+                i ++;
+                countyCount ++;
+            }
+            double average = (double)(sum/countyCount);
+            System.out.println(currentState + " : " + average);
         }
     }
 }

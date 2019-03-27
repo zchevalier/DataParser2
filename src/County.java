@@ -5,6 +5,7 @@ public class County {
     private ElectionResult electionResult;
     private EducationResult educationResult;
     private EmploymentResult employmentResult;
+    private double unemploymentRate;
 
     public County(String name, int fips, ElectionResult vote2016, EducationResult educ2016, EmploymentResult employ2016) {
         this.name = name;
@@ -12,6 +13,19 @@ public class County {
         this.electionResult = vote2016;
         this.educationResult = educ2016;
         this.employmentResult = employ2016;
+    }
+
+    public County (String name, double unemploymentRate){
+        this.name = name;
+        this.unemploymentRate = unemploymentRate;
+    }
+
+    public void setUnemploymentRate(double unemploymentRate) {
+        this.unemploymentRate = unemploymentRate;
+    }
+
+    public double getUnemploymentRate() {
+        return unemploymentRate;
     }
 
     public String getName() {

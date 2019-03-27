@@ -22,78 +22,68 @@ public class Utils {
         return output.toString();
     }
 
-    public static ArrayList<ElectionResults> parse2016PresidentialResults(String data){
-        ArrayList<ElectionResults> output = new ArrayList<>();
-        String [] rows = data.split("\n");
+   public static ArrayList<DataManager> parseUnemploymentData(String data){
 
-        for(int i = 1; i < rows.length; i ++){
-                String cleanedRow = clean(rows[i]);
-
-                String[] a = rows[i].split(",");
-                if (a.length == 11) {
-                    ElectionResults result = new ElectionResults(Integer.parseInt(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]),
-                            Double.parseDouble(a[3]), Double.parseDouble(a[4]), Integer.parseInt(a[5]), Double.parseDouble(a[6]),
-                            a[7], a[8], Integer.parseInt(a[9]));
-                    output.add(result);
-                } else {
-                    System.out.println("Error at row " + i);
-                }
-            }
-        return output;
-    }
-
-    public static ArrayList<EducationResult> parse2016EducationResults(String data){
-        ArrayList<EducationResult> output = new ArrayList<>();
+        ArrayList<DataManager> output = new ArrayList<>();
         String[] rows = data.split("\n");
 
-        for(int i = 1; i < rows.length; i ++){
-            String cleanedRow = clean(rows[i]);
+        for(int i = 10; i < rows.length; i ++){
 
-            String[] a = rows[i].split(",");
-            if(a.length == 48){
-                // create educationResult object, store information, and add to output
+            String[] characters = cleanRow(rows[i]);
+
+            for(int j = 0; j < characters.length; j ++){
+                characters[j].trim();
             }
-        } return output;
-    }
 
-    public static ArrayList<EmploymentResult> parse2016EmploymentResults(String data){
-        ArrayList<EmploymentResult> output = new ArrayList<>();
-        String[] rows = data.split("\n");
+            if(characters[3].contains("County")){
+                String stateName = characters[2];
+                String countyName = characters[3];
+                double unemploymentRate2016 = Double.parseDouble(characters[46]);
 
-        for(int i = 1; i < rows.length; i ++){
-            String cleanedRow = clean(rows[i]);
-
-            String[] a = rows[i].split(",");
-            if(a.length == 53){
-                // create employmentResult object, store information, and add to output
+                DataManager result = new DataManager(stateName, countyName, unemploymentRate2016);
+                output.add(result);
             }
+            System.out.println(output);
         } return output;
-    }
-
-   private static String cleanLine(String row){
-        int firstQuote = row.indexOf("\"");
-        int secondQuote = row.indexOf("\"", firstQuote + 1);
-
-        while(firstQuote != -1 && secondQuote != -1){
-            row = cleanSection(row, firstQuote, secondQuote);
-            firstQuote = row.indexOf("\"");
-            secondQuote = row.indexOf("\"", firstQuote + 1);
-        }
-        return row;
    }
 
-    private static String cleanSection(String row, int firstQuote, int secondQuote) {
-        String previous = row.substring(0, firstQuote);
-        String next = row.substring(secondQuote + 1);
-        String uncleaned = row.substring(firstQuote + 1, secondQuote);
+    private static String removeCommas(String data, int firstIndex) {
 
-        return previous + clean(uncleaned) + next;
+        int secondIndex = data.indexOf("\"", firstIndex + 1);
+
+        String middle = data.substring(firstIndex + 1, secondIndex);
+        String first = data.substring(0, firstIndex);
+        String last = data.substring(secondIndex + 1);
+
+        int indexOfComma = middle.indexOf(",");
+
+        while (indexOfComma != -1) {
+            middle = middle.substring(0, indexOfComma) + middle.substring(indexOfComma + 1);
+            indexOfComma = middle.indexOf(",");
+        }
+
+        return (first + middle + last);
     }
 
-    private static String clean(String uncleaned) {
-        uncleaned = uncleaned.replaceAll(",", "").trim();
-        uncleaned = uncleaned.replaceAll("%", "").trim();
-        return uncleaned;
+
+    private static String[] cleanRow (String data) {
+        String [] characters;
+
+        int firstIndex = data.indexOf("\"");
+
+        if (firstIndex != -1){
+            while (firstIndex != -1) {
+                data = removeCommas(data, firstIndex);
+                firstIndex = data.indexOf("\"");
+            }
+            characters = data.split(",");
+
+        }else {
+            characters = data.split(",");
+        }
+        return characters;
     }
+
+
 
 }

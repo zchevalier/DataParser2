@@ -1,20 +1,35 @@
-import java.util.List;
-
 public class DataManager {
 
-    private List<State> states;
+    private String stateName;
+    private String countyName;
+    private double unemploymentRate;
 
-    public DataManager(List<State> states) {
-        this.states = states;
+    public DataManager(String stateName, String county, double unemploymentRate) {
+        this.countyName = county;
+        this.unemploymentRate = unemploymentRate;
     }
 
-    public List<State> getStates() {
-        return states;
+    public String getStateName() {
+        return stateName;
     }
 
-    public void setStates(List<State> states) {
-        this.states = states;
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
+    }
 
+    public void setUnemploymentRate(double unemploymentRate) {
+        this.unemploymentRate = unemploymentRate;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public double getUnemploymentRate() {
+        return unemploymentRate;
+    }
 }
